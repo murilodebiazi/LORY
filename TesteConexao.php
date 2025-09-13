@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "myDB";
+$username = "root";
+$password = "root";
+$dbname = "LORY";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,13 +13,13 @@ if ($conn->connect_error) {
 }
 
 // prepare and bind
-$stmt = $conn->prepare("INSERT INTO MyGuests (firstname, lastname, email) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $firstname, $lastname, $email);
+$stmt = $conn->prepare("INSERT INTO Usuario (nomeUsuario, emailUsuario, senhaUsuario) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $nome, $email, $senha);
 
 // set parameters and execute
-$firstname = "John";
-$lastname = "Doe";
-$email = "john@example.com";
+$nome = $_POST['nome'];
+$email = $_POST['email'];
+$senha = $_POST['senha'];
 $stmt->execute();
 
 echo "New records created successfully";
@@ -53,4 +53,5 @@ if ($result->num_rows > 0) {
   echo "0 results";
 }
 $conn->close();
+
 ?>
