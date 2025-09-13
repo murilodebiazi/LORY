@@ -1,43 +1,26 @@
 <?php
-include '../database/db_connect.php';
+session_start();
+require_once __DIR__ . '/../config/config.php';
 
-$message = "";
-$toastClass = "";
+$msg = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $nome  = trim($_POST["nome"]);
+    $email = trim($_POST["email"]);
+    $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
 
-    // Check if email already exists
-    $checkEmailStmt = $conn->prepare("SELECT email FROM userdata WHERE email = ?");
-    $checkEmailStmt->bind_param("s", $email);
-    $checkEmailStmt->execute();
-    $checkEmailStmt->store_result();
+    $sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sss", $nome, $email, $senha);
 
-    if ($checkEmailStmt->num_rows > 0) {
-        $message = "Email ID already exists";
-        $toastClass = "#007bff"; // Primary color
+    if ($stmt->execute()) {
+        $msg = "Cadastro realizado com sucesso! <a href='login.php'>Entrar</a>";
     } else {
-        // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO userdata (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $password);
-
-        if ($stmt->execute()) {
-            $message = "Account created successfully";
-            $toastClass = "#28a745"; // Success color
-        } else {
-            $message = "Error: " . $stmt->error;
-            $toastClass = "#dc3545"; // Danger color
-        }
-
-        $stmt->close();
+        $msg = "Erro ao cadastrar: " . $stmt->error;
     }
-
-    $checkEmailStmt->close();
-    $conn->close();
+    $stmt->close();
 }
-
+?>
 
 <!DOCTYPE html>
 
@@ -65,25 +48,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <tr> 
             <td><input type="text" name="nome" placeholder="Nome" id="nome" onfocus="resetarLogin(this)"></td>
-            <span class="error">* <?php echo $nomeErro;?></span>
             <br><br>
         </tr>
             
         <tr>
             <td><input type="email" name="email" placeholder="Email" id="email"onfocus="resetarLogin(this)"></td>
-            <span class="error">* <?php echo $memailErro;?></span>
             <br><br>
         </tr>
 
         <tr>
             <td><input type="password" name="password" placeholder="Senha"  id="senha"  onfocus="mudarParaPassword(this)"></td>
-            <span class="error">* <?php echo $senhaErro;?></span>
             <br><br>
         </tr>
 
         <tr>
             <td><input type="password" name="passwordConfirm" placeholder="Confirmar Senha"    onfocus="mudarParaPassword(this)" id="confirmarSenha"></td>
-            <span class="error">* <?php echo $senhaConfirmaErro;?></span>
             <br><br>
         </tr>
         <tr>
@@ -99,8 +78,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
-
-
-
-
-
