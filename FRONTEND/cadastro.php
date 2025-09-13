@@ -1,5 +1,5 @@
 <?php
-    require_once "CONFIG/config.php"
+    require_once "CONFIG\config.php"
     
     $nome = $email = $senha = $senhaConfirma = "";
 
@@ -64,7 +64,7 @@
 <body>
 
     <div style="display: block; text-align: center;">
-    <form action="questionario.php" method="post">
+    <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
   
     <table>
 
@@ -108,4 +108,7 @@
 </body>
 
 </html>
+
+
+
 
