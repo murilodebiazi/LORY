@@ -1,51 +1,42 @@
 <?php
-    require_once "CONFIG\config.php"
-    
-    $nome = $email = $senha = $senhaConfirma = "";
+include '../database/db_connect.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST")
-    {
-         if (empty($_POST["name"])) {
-             $nameErro = "Este campo é obrigatório";
-         } else {
-             $name = test_input($_POST["name"]);
-         }
+$message = "";
+$toastClass = "";
 
-         if (empty($_POST["email"])) {
-             $emailErro = "Este campo é obrigatório";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Check if email already exists
+    $checkEmailStmt = $conn->prepare("SELECT email FROM userdata WHERE email = ?");
+    $checkEmailStmt->bind_param("s", $email);
+    $checkEmailStmt->execute();
+    $checkEmailStmt->store_result();
+
+    if ($checkEmailStmt->num_rows > 0) {
+        $message = "Email ID already exists";
+        $toastClass = "#007bff"; // Primary color
+    } else {
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO userdata (username, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $email, $password);
+
+        if ($stmt->execute()) {
+            $message = "Account created successfully";
+            $toastClass = "#28a745"; // Success color
         } else {
-            $email = test_input($_POST["email"]);
+            $message = "Error: " . $stmt->error;
+            $toastClass = "#dc3545"; // Danger color
         }
 
-        if (empty($_POST["password"])) {
-             $senhaErro = "Este campo é obrigatório";
-         } else {
-             $senha = test_input($_POST["password"]);
-         }
-
-         if (empty($_POST["passwordConfirm"])) {
-             $senhaConfirmaErro = "Este campo é obrigatório";
-         } else {
-             $senhaConfirma = test_input($_POST["passwordConfirm"]);
-         }
-
-        // prepare and bind
-        $stmt = $conn->prepare("INSERT INTO Usuario (nomeUsuario, emailUsuario, senhaUsuario) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $nome, $email, $senha);
-
-        // set parameters and execute
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $senha = $_POST['password'];
-
-        $stmt->execute();
-
-        echo "New records created successfully";
-
         $stmt->close();
-        $conn->close();
     }
-?>
+
+    $checkEmailStmt->close();
+    $conn->close();
+}
 
 
 <!DOCTYPE html>
@@ -108,6 +99,7 @@
 </body>
 
 </html>
+
 
 
 
