@@ -1,0 +1,49 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Lory</title>
+</head>
+
+<body>
+
+    <div style="display: block; text-align: center;">
+    <form action="login.php" method="post">
+  
+    <table>
+
+        <tr>
+            <td colspan="2"><h1 style="padding-top: 13%;font-size: 400%;">Cadastro</h1></td>
+        </tr>
+
+        <tr> 
+            <td><input type="text" name="nome" placeholder="Nome" id="nome" onfocus="resetarLogin(this)"></td>
+        </tr>
+            
+        <tr>
+            <td><input type="email" name="email" placeholder="Email" id="email"onfocus="resetarLogin(this)"></td>
+        </tr>
+
+        <tr>
+            <td><input type="password" name="password" placeholder="Senha"  id="senha"  onfocus="mudarParaPassword(this)"></td>
+        </tr>
+
+        <tr>
+            <td><input type="password" name="passwordConfirm" placeholder="Confirmar Senha"    onfocus="mudarParaPassword(this)" id="confirmarSenha"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" style="padding: 15px 30px; font-size: 15px; margin: 60px;" value="Entrar" ></td>
+        </tr>
+        
+
+   
+            
+    </table>
+        
+    </form>
+    
+    </div>
+    
+</body>
+
+</html>
