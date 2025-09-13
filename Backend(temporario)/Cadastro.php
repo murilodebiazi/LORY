@@ -1,4 +1,6 @@
 <?php
+use Usuario.php;
+
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -29,4 +31,5 @@ echo "New records created successfully";
 $stmt->close();
 $conn->close();
 ?>
+
 
