@@ -1,5 +1,5 @@
 <?php
-use Usuario.php;
+require_once "Usuario.php";
 
 $servername = "localhost";
 $username = "root";
@@ -16,13 +16,10 @@ if ($conn->connect_error) {
 
 // prepare and bind
 $stmt = $conn->prepare("INSERT INTO Usuario (nomeUsuario, emailUsuario, senhaUsuario) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $usuario->getNome, $usuario->getEmail, $usuario->getSenha);
+$stmt->bind_param("sss", $usuario->nome,  $usuario->email,  $usuario->senha);
 
-$usuario = new Usuario();
 // set parameters and execute
-$usuario->setNome($_POST['nome']);
-$usuario->setEmail($_POST['email']);
-$usuario->setSenha($_POST['password'])
+$usuario = new Usuario($_POST['nome'], $_POST['email'], $_POST['password'])
 
 $stmt->execute();
 
@@ -31,5 +28,3 @@ echo "New records created successfully";
 $stmt->close();
 $conn->close();
 ?>
-
-
