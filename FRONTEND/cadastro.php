@@ -32,49 +32,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Lory</title>
+    <link rel="icon" type="image/png" href="icon.png">
     
 </head>
 
 <body>
 
     <div style="display: block; text-align: center;">
-    <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+    <form action="questionario.php" method="post">
   
     <table>
 
         <tr>
-            <td colspan="2"><h1 style="padding-top: 13%;font-size: 400%;padding-bottom: 1;">Cadastro</h1></td>
+            <td colspan="2"><h1 style="padding-top: 13%;font-size: 300%;padding-bottom: 1;">Cadastro</h1></td>
         </tr>
 
         <tr> 
             <td><input type="text" name="nome" placeholder="Nome" id="nome" onfocus="resetarLogin(this)"></td>
-            <br><br>
         </tr>
             
         <tr>
             <td><input type="email" name="email" placeholder="Email" id="email"onfocus="resetarLogin(this)"></td>
-            <br><br>
         </tr>
 
         <tr>
             <td><input type="password" name="password" placeholder="Senha"  id="senha"  onfocus="mudarParaPassword(this)"></td>
-            <br><br>
         </tr>
 
         <tr>
             <td><input type="password" name="passwordConfirm" placeholder="Confirmar Senha"    onfocus="mudarParaPassword(this)" id="confirmarSenha"></td>
-            <br><br>
         </tr>
+        
         <tr>
-            <td><input type="submit" style="padding: 15px 30px; font-size: 15px; margin: 60px;" value="Entrar" ></td>
+            <td><a href="questionario.html"><input type="submit" style="padding: 15px 30px; font-size: 15px; margin: 60px;" value="Entrar" ></a></td>
         </tr>
             
     </table>
         
     </form>
+
+    <p><a href="login.html" style="color: aliceblue;">Já tem uma conta? Entre aqui.</a></p>
     
     </div>
     
 </body>
 
 </html>
+
